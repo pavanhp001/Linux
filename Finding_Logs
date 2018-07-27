@@ -1,0 +1,147 @@
+https://www.thegeekstuff.com/2009/03/15-practical-unix-grep-command-examples
+https://www.thegeekstuff.com/2011/01/regular-expressions-in-grep-command/
+
+
+$ cat demo_file
+THIS LINE IS THE 1ST UPPER CASE LINE IN THIS FILE.
+this line is the 1st lower case line in this file.
+This Line Has All Its First Character Of The Word With Upper Case.
+
+Two lines above this line is empty.
+And this is the last line.
+
+1. Search for the given string in a single file
+===========================================
+grep "literal_string" filename
+$ grep "this" demo_file
+
+2. Checking for the given string in multiple files.
+===============================================
+
+grep "string" FILE_PATTERN
+$ grep "this" demo_*
+
+3. Case insensitive search using grep -i
+=====================================
+
+grep -i "string" FILE
+$ grep -i "the" demo_file
+
+4. Match regular expression in files
+=====================================
+grep "REGEX" filename
+$ grep "lines.*empty" demo_file
+
+? The preceding item is optional and matched at most once.
+* The preceding item will be matched zero or more times.
++ The preceding item will be matched one or more times.
+{n} The preceding item is matched exactly n times.
+{n,} The preceding item is matched n or more times.
+{,m} The preceding item is matched at most m times.
+{n,m} The preceding item is matched at least n times, but not more than m times.
+
+5. Checking for full words, not for sub-strings using grep -w
+=====================================================
+ if -i
+ 
+ $ grep -i "is" demo_file
+This Line Has All Its First Character Of The Word With Upper Case.
+
+if -iw (It only search for "is")
+$ grep -iw "is" demo_file   // no resul will get
+
+6. Displaying lines before/after/around the match using grep -A, -B and -C
+6.1 Display N lines <b>after match</b><b></b>
+                    ===========
+$ grep -A 3 -i "example" demo_text
+
+6.2 Display N lines before match
+                    ===========
+$ grep -B 2 "single WORD" demo_text       //exicutes before 2 lines 
+
+6.3 Display N lines around match
+                    ===========
+                    
+$ grep -C 2 "Example" demo_text   // it prints before and after matches
+
+7. Highlighting the search using GREP_OPTIONS
+============================================
+
+$ export GREP_OPTIONS='--color=auto' GREP_COLOR='100;8'
+
+$ grep this demo_file  // this will print as bold font
+
+8. Searching in all files recursively using grep -r
+==============================================
+
+all the files in the current directory and all it’s subdirectory.
+
+$ grep -r "ramesh" *
+
+9. Invert match using grep -v
+==============================
+
+You had different options to show the lines matched, to show the lines before match, and to show the lines after match, and to highlight match. So definitely You’d also want the option -v to do invert match.
+
+When you want to display the lines which does not matches the given string/pattern, use the option -v as shown below. This example will display all the lines that did not match the word “go”.
+
+
+$ grep -v "go" demo_text
+4. Vim Word Navigation
+10. display the lines which does not matches all the given pattern.
+==================================================
+$ cat test-file.txt
+a
+b
+c
+d
+
+$ grep -v -e "a" -e "b" -e "c" test-file.txt
+d
+
+11. Counting the number of matches using grep -c
+============================================
+
+$ grep -c "go" demo_text
+6
+
+When you want do find out how many lines that does not match the pattern
+
+$ grep -v -c this demo_file  // -v for does not match the pattern
+4
+12. Display only the file names which matches the given pattern using grep -l
+=============================================================
+
+$ grep -l this demo_*
+demo_file
+demo_file1
+
+13. Show only the matched string
+===============================
+
+$ grep -o "is.*line" demo_file    // -o only the matched string of the pattern
+is line is the 1st lower case line
+is line
+is is the last line
+
+14. Show the position of match in the line
+======================================
+$ cat temp-file.txt
+12345
+12345
+
+$ grep -o -b "3" temp-file.txt
+2:3
+8:3
+
+Note: The output of the grep command above is not the position in the line, it is byte offset of the whole file.
+
+15. Show line number while displaying the output using grep -n
+=======================================================
+
+$ grep -n "go" demo_text
+
+
+
+
+
